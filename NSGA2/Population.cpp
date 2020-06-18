@@ -1,19 +1,19 @@
-#include "pch.h"
 #include "Population.h"
+#include "GeneticAlgorithm.h"
+#include "ProblemParas.h"
+#include "Individual.h"
 
-Population::Population(int _popSize, int _geneSize, float probCrossover, float probMutation)
+Population::Population(GAPara gaPara)
 {
-	populationSize = _popSize;
-	geneSize = _geneSize;
-	crossover_prob = probCrossover;
-	mutation_prob = probMutation;
+	this->gaPara_pop = gaPara;
 }
 
+//初始化一个种群
 void Population::initialize()
 {
-	for (int i = 0; i < populationSize; i++)
+	for (int i = 0; i < gaPara_pop.populationSize; i++)
 	{
-		individualSet.push_back(Individual(geneSize));
+		individualSet.push_back(Individual(gaPara_pop.geneSize, gaPara_pop.fitnessCount, gaPara_pop.lowerBounds, gaPara_pop.upBounds));
 	}
 }
 
@@ -24,19 +24,25 @@ void Population::clear()
 
 Population Population::copy()
 {
-	return Population(populationSize, geneSize, crossover_prob, mutation_prob);
+	return Population(gaPara_pop);
 }
 
+//返回一个当前种群的拷贝
 Population Population::copy_all()
 {
-	Population _tmpPop(populationSize, geneSize, crossover_prob, mutation_prob);
+	Population _tmpPop(gaPara_pop);
 	_tmpPop.individualSet = individualSet;
 	return _tmpPop;
 }
 
 Population Population::combination(Population q)
 {
-	Population _tmp(populationSize * 2, geneSize * 2, crossover_prob, 1 / (populationSize * 2));
+	GAPara gaParaCopy = gaPara_pop.Copy();
+	gaParaCopy.populationSize = gaPara_pop.populationSize * 2;
+	gaParaCopy.geneSize = gaPara_pop.geneSize * 2;
+	double newCrossoverProb = gaPara_pop.crossoverProb;
+	double newMutationProb = gaPara_pop.mutationProb;
+	Population _tmp(gaParaCopy);
 	_tmp.individualSet = individualSet;
 
 	for (auto ind : q.individualSet)
@@ -46,10 +52,11 @@ Population Population::combination(Population q)
 	return _tmp;
 }
 
-void Population::evaluation()
+void Population::evaluation(int fitnessCount, ProblemParas proParas)
 {
-	for (auto & ind : individualSet)
+	for (int i = 0; i < individualSet.size(); i++)
 	{
-		ind.evaluation();
+		individualSet[i].evaluation(fitnessCount, proParas);
 	}
 }
+

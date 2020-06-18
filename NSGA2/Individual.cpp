@@ -1,37 +1,34 @@
-#include "pch.h"
 #include "Individual.h"
-
+#include "Tools.h"
+#include "ProblemParas.h"
+#include "FitnessFunction.h"
+//个体集合
 Individual::Individual() {}
 
-Individual::Individual(int geneSize)
+//初始化一个个体（geneSize是染色体基因的长度）
+Individual::Individual(int geneSize, int fitnessCount, double* lower_bounds, double* upper_bounds)
 {
-	std::mt19937 rng;
-	rng.seed(std::random_device()());
-	std::uniform_real_distribution<> dist_float(-pow(10.0, 3.0), pow(10.0, 3.0));
-	std::uniform_int_distribution<std::mt19937::result_type> dist_int(0, 1);
-
+	this->geneSize = geneSize;
+	this->fitnessCount = fitnessCount;
+	genes = new double[geneSize];
 	for (int i = 0; i < geneSize; i++)
 	{
-		genes.push_back(dist_float(rng));
+		double tempGene = GetDoubleRand() * (upper_bounds[i] - lower_bounds[i]) + lower_bounds[i];
+		genes[i] = tempGene;//构造初始种群
 	}
 }
 
-void Individual::evaluation()
+//计算个体的所有适应度（这里的适应度函数很简单，后面要改）
+void Individual::evaluation(int fitnessCount, ProblemParas proParas)
 {
-	objectiveSet.resize(2);
-	for (int i = 0; i < genes.size(); i++)
-	{
-		float f1 = pow(genes[i], 2.0);
-		objectiveSet[0] = f1;
-
-		float f2 = pow((genes[i] - 2.0), 2.0);
-		objectiveSet[1] = f2;
-	}
+	Individual individual = *this;
+	objectiveSet = FitnessFunction(individual, proParas);
 }
 
+//判断q是否支配当前染色体
 bool Individual::dominate(Individual q)
 {
-	for (int i = 0; i < objectiveSet.size(); i++)
+	for (int i = 0; i < fitnessCount; i++)
 	{
 		if (objectiveSet[i] > q.objectiveSet[i])
 		{

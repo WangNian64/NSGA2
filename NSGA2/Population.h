@@ -1,30 +1,24 @@
-#include "pch.h"
-#include "Individual.h"
-
 #pragma once
-
+#include "GAPara.h"
+#include "Individual.h"
 #ifndef POPULATION_H
 #define POPULATION_H
-
 using namespace std;
 
 class Population
 {
 public:
 	vector<Individual> individualSet;
-	int populationSize;
-	int geneSize;
-	float crossover_prob;
-	float mutation_prob;
+	GAPara gaPara_pop;
 
-	Population(int, int, float, float);
+	Population(GAPara gaPara);
 	void initialize();
 	void clear();
 	Population copy();
 	Population copy_all();
 	Population combination(Population);
 
-	void evaluation();
+	void evaluation(int fitnessCount, ProblemParas proParas);
 };
 
 #endif // !POPULATION_H
