@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INDIVIDUAL_H
-#define INDIVIDUAL_H
+#include <random>
+#include "BestPathInfo.h"
 #include "ProblemParas.h"
 using namespace std;
 
@@ -13,15 +13,15 @@ public:
 	int geneSize;//基因数组大小
 	double* objectiveSet;//目标函数的值的集合
 	int fitnessCount;//适应度数目
-	vector<Individual*> dominatedSet;//被支配解集
+	vector<Individual*> dominatedSet;//支配其他解的解集
 	int dominatedCount;//被支配解的数目
 	int rank;//Pareto等级
-	double distance;//解的距离（和拥挤度相反）
+	double distance;//解的距离（和拥挤度相反，距离越大拥挤度越小）
 
 	Individual();
-	Individual(int geneSize, int fitnessCount, double* lower_bounds, double* upper_bounds);
-	void evaluation(int fitnessCount, ProblemParas proParas);
+	void evaluation(int curIterNum, int maxIterNum, vector<BestPathInfo>& bestPathInfoList, ProblemParas& proParas);
+
+	Individual(int geneSize, int fitnessCount, double* lower_bounds, double* upper_bounds, ProblemParas& problemParas);
+	Individual(int s, int geneSize, int fitnessCount, vector<double> lower_bounds, vector<double> upper_bounds, ProblemParas& problemParas);
 	bool dominate(Individual);
 };
-
-#endif // !INDIVIDUAL_H

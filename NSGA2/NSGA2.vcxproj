@@ -151,15 +151,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
+    <ClInclude Include="BestPathInfo.h" />
+    <ClInclude Include="DevicePara.h" />
     <ClInclude Include="FitnessFunction.h" />
     <ClInclude Include="GAPara.h" />
-    <ClInclude Include="Individual.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="GeneticAlgorithm.h" />
+    <ClInclude Include="Individual.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="ProblemParas.h" />
     <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="GeneticAlgorithm.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>

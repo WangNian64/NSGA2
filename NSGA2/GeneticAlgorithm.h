@@ -1,7 +1,7 @@
 #pragma once
 #include "Population.h"
-#include "Individual.h"
 #include "ProblemParas.h"
+#include "BestPathInfo.h"
 #ifndef GENETIC_ALGORITHM_H
 #define GENETIC_ALGORITHM_H
 
@@ -11,7 +11,9 @@ using namespace std;
 class GeneticAlgorithm
 {
 public:
+	int curIterNum;
 	GAPara gaPara;
+	vector<BestPathInfo> bestPathInfoList;		//最优路径信息
 
 	void wheelSelection(Population&);
 	void crossover(Population&);

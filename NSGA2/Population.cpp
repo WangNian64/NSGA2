@@ -1,5 +1,5 @@
 #include "Population.h"
-#include "GeneticAlgorithm.h"
+#include "BestPathInfo.h"
 #include "ProblemParas.h"
 #include "Individual.h"
 
@@ -13,7 +13,7 @@ void Population::initialize()
 {
 	for (int i = 0; i < gaPara_pop.populationSize; i++)
 	{
-		individualSet.push_back(Individual(gaPara_pop.geneSize, gaPara_pop.fitnessCount, gaPara_pop.lowerBounds, gaPara_pop.upBounds));
+		individualSet.push_back(Individual(gaPara_pop.geneSize, gaPara_pop.fitnessCount, gaPara_pop.lower_bound_, gaPara_pop.upper_bound_, gaPara_pop.problemParas));
 	}
 }
 
@@ -35,28 +35,28 @@ Population Population::copy_all()
 	return _tmpPop;
 }
 
-Population Population::combination(Population q)
+Population Population::combination(Population& q)
 {
 	GAPara gaParaCopy = gaPara_pop.Copy();
 	gaParaCopy.populationSize = gaPara_pop.populationSize * 2;
-	gaParaCopy.geneSize = gaPara_pop.geneSize * 2;
-	double newCrossoverProb = gaPara_pop.crossoverProb;
-	double newMutationProb = gaPara_pop.mutationProb;
+	gaParaCopy.geneSize = gaPara_pop.geneSize;
+	//double newCrossoverProb = gaPara_pop.crossoverProb;
+	//double newMutationProb = gaPara_pop.mutationProb;
 	Population _tmp(gaParaCopy);
 	_tmp.individualSet = individualSet;
 
-	for (auto ind : q.individualSet)
+	for (auto ind : q.individualSet)//在后面追加新的元素
 	{
 		_tmp.individualSet.push_back(ind);
 	}
 	return _tmp;
 }
 
-void Population::evaluation(int fitnessCount, ProblemParas proParas)
+void Population::evaluation(int curIterNum, int maxIterNum, vector<BestPathInfo>& bestPathInfoList, ProblemParas& proParas)
 {
 	for (int i = 0; i < individualSet.size(); i++)
 	{
-		individualSet[i].evaluation(fitnessCount, proParas);
+		individualSet[i].evaluation(curIterNum, maxIterNum, bestPathInfoList, proParas);
 	}
 }
 

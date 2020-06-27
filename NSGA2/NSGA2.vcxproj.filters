@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Individual.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Population.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -36,6 +33,21 @@
     <ClInclude Include="Tools.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DevicePara.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Individual.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BestPathInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NSGA2.cpp">
@@ -48,6 +60,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="GeneticAlgorithm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,9 +16,9 @@ public:
 	void clear();
 	Population copy();
 	Population copy_all();
-	Population combination(Population);
+	Population combination(Population&);
 
-	void evaluation(int fitnessCount, ProblemParas proParas);
+	void evaluation(int curIterNum, int maxIterNum, vector<BestPathInfo>& bestPathInfoList, ProblemParas& proParas);
 };
 
 #endif // !POPULATION_H
