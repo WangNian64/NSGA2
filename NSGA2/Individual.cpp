@@ -45,7 +45,7 @@ Individual::Individual(int geneSize, int fitnessCount, double* lower_bounds, dou
 	for (int i = 2; i < geneSize; i += 3)
 	{
 		//double转int，转换为Direction，然后根据朝向重新计算设备尺寸和出入口
-		//Rotate90或者Rotate270,修改上下限
+		//Rotate90或者Rotate270，修改上下限
 		DeviceDirect curDirect = (DeviceDirect)(int)genes[i];
 		if (curDirect == DeviceDirect::Rotate90 || curDirect == DeviceDirect::Rotate270)
 		{

@@ -120,6 +120,7 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 		Individual& ind1 = p.individualSet[i];//待交叉的第一个
 		Individual& ind2 = p.individualSet[i + (p.gaPara_pop.populationSize / 2)];//待交叉的第二个
 
+		//需要产生新的个体吗？
 		Individual c1(0, p.gaPara_pop.geneSize, p.gaPara_pop.fitnessCount, lowerBound_Ind1, upperBound_Ind1, p.gaPara_pop.problemParas);
 		Individual c2(0, p.gaPara_pop.geneSize, p.gaPara_pop.fitnessCount, lowerBound_Ind2, upperBound_Ind2, p.gaPara_pop.problemParas);
 
@@ -177,9 +178,9 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 				c2.genes[j] = x_bar + b_bar * abs(ind1.genes[j] - ind2.genes[j]) / 2;
 
 				//处理朝向越界
-				if (c1.genes[j] > p.gaPara_pop.upper_bound_[j]) {
+				if (c1.genes[j] >= p.gaPara_pop.upper_bound_[j]) {//注意，=也不行
 					double thre = GetDoubleRand(99);
-					if (ind1.genes[j] == p.gaPara_pop.upper_bound_[j])
+					if (ind1.genes[j] >= p.gaPara_pop.upper_bound_[j] - 1)
 					{
 						c1.genes[j] = GetDoubleRand() *
 							(p.gaPara_pop.upper_bound_[j] - p.gaPara_pop.lower_bound_[j]) + p.gaPara_pop.lower_bound_[j];
@@ -191,7 +192,7 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 					}
 					else
 					{
-						c1.genes[j] = p.gaPara_pop.upper_bound_[j];
+						c1.genes[j] = p.gaPara_pop.upper_bound_[j] - 0.5;
 					}
 				}
 				if (c1.genes[j] < p.gaPara_pop.lower_bound_[j]) {
@@ -212,9 +213,9 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 					}
 				}
 
-				if (c2.genes[j] > p.gaPara_pop.upper_bound_[j]) {
+				if (c2.genes[j] >= p.gaPara_pop.upper_bound_[j]) {
 					double thre = GetDoubleRand(99);
-					if (ind2.genes[j] == p.gaPara_pop.upper_bound_[j])
+					if (ind2.genes[j] >= p.gaPara_pop.upper_bound_[j] - 1) 
 					{
 						ind2.genes[j] = GetDoubleRand() *
 							(p.gaPara_pop.upper_bound_[j] - p.gaPara_pop.lower_bound_[j]) + p.gaPara_pop.lower_bound_[j];
@@ -226,7 +227,7 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 					}
 					else
 					{
-						ind2.genes[j] = p.gaPara_pop.upper_bound_[j];
+						ind2.genes[j] = p.gaPara_pop.upper_bound_[j] - 0.5;
 					}
 				}
 				if (c2.genes[j] < p.gaPara_pop.lower_bound_[j]) {
@@ -260,7 +261,6 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 
 				upperBound_Ind1[j - 2] = p.gaPara_pop.problemParas.workShopLength - p.gaPara_pop.problemParas.deviceParaList[j / 3].size.y * 0.5 - p.gaPara_pop.problemParas.deviceParaList[j / 3].spaceLength;
 				upperBound_Ind1[j - 1] = p.gaPara_pop.problemParas.workShopWidth - p.gaPara_pop.problemParas.deviceParaList[j / 3].size.x * 0.5 - p.gaPara_pop.problemParas.deviceParaList[j / 3].spaceLength;
-
 			}
 			else
 			{
@@ -270,7 +270,6 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 
 				upperBound_Ind1[j - 2] = p.gaPara_pop.problemParas.workShopLength - p.gaPara_pop.problemParas.deviceParaList[j / 3].size.x * 0.5 - p.gaPara_pop.problemParas.deviceParaList[j / 3].spaceLength;
 				upperBound_Ind1[j - 1] = p.gaPara_pop.problemParas.workShopWidth - p.gaPara_pop.problemParas.deviceParaList[j / 3].size.y * 0.5 - p.gaPara_pop.problemParas.deviceParaList[j / 3].spaceLength;
-
 			}
 		}
 		for (int j = 2; j < p.gaPara_pop.geneSize; j += 3) {
@@ -319,7 +318,7 @@ void GeneticAlgorithm::SBX(int index, Population& p)
 					c2.genes[j] = x_bar + b_bar * abs(ind1.genes[j] - ind2.genes[j]) / 2;
 				}
 
-
+				//防止越界
 				if (c1.genes[j] > upperBound_Ind1[j]) {
 					double thre = GetDoubleRand(99);
 					if (ind1.genes[j] >= upperBound_Ind1[j])
